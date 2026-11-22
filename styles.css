@@ -656,26 +656,16 @@ body.encyclopedia-mode .topnav {
   position: relative;
   height: 82px;
   overflow: hidden;
-  background-image: url("docs/prototyp/encyklopedia_tvary.png");
-  background-repeat: no-repeat;
-  background-size: 892px 613px;
   border-bottom: 1px solid #edf0f4;
 }
 
-.shape-strat {
-  background-position: -194px -348px;
-}
-
-.shape-tele {
-  background-position: -350px -348px;
-}
-
-.shape-lespaul {
-  background-position: -508px -348px;
-}
-
-.shape-sg {
-  background-position: -655px -348px;
+.shape-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 7px 7px 0 0;
 }
 
 .shape-photo span {
