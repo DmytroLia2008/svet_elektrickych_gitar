@@ -198,78 +198,40 @@
 
         <div class="parts-card">
           <div class="diagram-panel">
-            <svg class="guitar-diagram" viewBox="0 0 280 360" role="img" aria-label="Schéma elektrickej gitary">
-              <defs>
-                <linearGradient id="neckFill" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0" stop-color="#dadcdf"/>
-                  <stop offset="1" stop-color="#ececef"/>
-                </linearGradient>
-              </defs>
-              <path d="M62 108L54 58c-1-8 5-14 13-14h10c8 0 14 6 13 14l-8 50z" fill="#edf0f4"/>
-              <path d="M64 88l28-1" stroke="#d5d8dd" stroke-width="5"/>
-              <path d="M62 105L218 240" stroke="#dfe1e5" stroke-width="20" stroke-linecap="round"/>
-              <path d="M62 105L218 240" stroke="#f2f3f5" stroke-width="10" stroke-linecap="round"/>
-              <path d="M100 142l19 15" stroke="#cfd3d9" stroke-width="2"/>
-              <path d="M122 161l17 14M143 180l17 14M164 197l17 14M185 215l17 14" stroke="#d2d5da" stroke-width="2"/>
-              <path d="M72 56c5 5 5 10 1 15" fill="none" stroke="#d1d4d9" stroke-width="3"/>
-              <path d="M50 47l23-7 10 7-27 12z" fill="#e8eaf0"/>
-              <path d="M211 230c24 10 39 32 39 51 0 15-8 31-22 41-12 9-30 12-45 7-20-6-34-24-34-44 0-18 9-34 24-44 12-8 25-12 38-11z" fill="#eef0f3"/>
-              <path d="M197 277c10 9 13 23 8 35" fill="none" stroke="#dfe2e7" stroke-width="8"/>
-              <rect x="220" y="252" width="14" height="10" rx="4" fill="#e1e4e8"/>
-              <circle cx="211" cy="267" r="7" fill="#273042"/>
-              <circle cx="211" cy="267" r="3" fill="#f1f3f6"/>
-              <circle cx="193" cy="294" r="7" fill="#273042"/>
-              <circle cx="193" cy="294" r="3" fill="#f1f3f6"/>
+            <div class="guitar-diagram">
+              <img class="guitar-diagram__image" src="img/gitara_diagram.webp" alt="Elektrická gitara so znázornenými základnými časťami">
 
-              <g class="hotspot" data-part="head" tabindex="0" role="button" aria-label="Hlava">
-                <circle cx="78" cy="57" r="7"/><circle cx="78" cy="57" r="2.5" class="dot"/>
-              </g>
-              <g class="hotspot" data-part="nut" tabindex="0" role="button" aria-label="Kobylka">
-                <circle cx="82" cy="78" r="7"/><circle cx="82" cy="78" r="2.5" class="dot"/>
-              </g>
-              <g class="hotspot" data-part="fret" tabindex="0" role="button" aria-label="Pražce">
-                <circle cx="127" cy="150" r="7"/><circle cx="127" cy="150" r="2.5" class="dot"/>
-              </g>
-              <g class="hotspot" data-part="neck" tabindex="0" role="button" aria-label="Krk">
-                <circle cx="137" cy="170" r="7"/><circle cx="137" cy="170" r="2.5" class="dot"/>
-              </g>
-              <g class="hotspot" data-part="bridge" tabindex="0" role="button" aria-label="Struny">
-                <circle cx="157" cy="196" r="7"/><circle cx="157" cy="196" r="2.5" class="dot"/>
-              </g>
-              <g class="hotspot" data-part="body" tabindex="0" role="button" aria-label="Telo">
-                <circle cx="188" cy="220" r="7"/><circle cx="188" cy="220" r="2.5" class="dot"/>
-              </g>
-              <g class="hotspot" data-part="switch" tabindex="0" role="button" aria-label="Prepínač">
-                <circle cx="226" cy="250" r="7"/><circle cx="226" cy="250" r="2.5" class="dot"/>
-              </g>
-              <g class="hotspot" data-part="controls" tabindex="0" role="button" aria-label="Ovládacie panely">
-                <circle cx="237" cy="292" r="7"/><circle cx="237" cy="292" r="2.5" class="dot"/>
-              </g>
-              <g class="hotspot" data-part="jack" tabindex="0" role="button" aria-label="Konektor Jack">
-                <circle cx="261" cy="311" r="7"/><circle cx="261" cy="311" r="2.5" class="dot"/>
-              </g>
-              <g class="hotspot" data-part="pickups" tabindex="0" role="button" aria-label="Snímače">
-                <circle cx="208" cy="237" r="7"/><circle cx="208" cy="237" r="2.5" class="dot"/>
-              </g>
-            </svg>
+              <button class="hotspot" type="button" data-part="head" aria-label="Hlava" aria-pressed="false"></button>
+              <button class="hotspot" type="button" data-part="tuning" aria-label="Ladiace mechaniky" aria-pressed="false"></button>
+              <button class="hotspot" type="button" data-part="neck" aria-label="Krk" aria-pressed="false"></button>
+              <button class="hotspot" type="button" data-part="fretboard" aria-label="Hmatník" aria-pressed="false"></button>
+              <button class="hotspot" type="button" data-part="fret" aria-label="Pražce" aria-pressed="false"></button>
+              <button class="hotspot" type="button" data-part="strings" aria-label="Struny" aria-pressed="false"></button>
+              <button class="hotspot" type="button" data-part="body" aria-label="Telo" aria-pressed="false"></button>
+              <button class="hotspot" type="button" data-part="pickups" aria-label="Snímače" aria-pressed="false"></button>
+              <button class="hotspot" type="button" data-part="nut" aria-label="Kobylka" aria-pressed="false"></button>
+              <button class="hotspot" type="button" data-part="controls" aria-label="Ovládacie panely" aria-pressed="false"></button>
+              <button class="hotspot" type="button" data-part="switch" aria-label="Prepínač" aria-pressed="false"></button>
+              <button class="hotspot" type="button" data-part="jack" aria-label="Konektor (Jack)" aria-pressed="false"></button>
+            </div>
             <p class="diagram-note"><span aria-hidden="true">ⓘ</span> Kliknite na body pre zobrazenie informácií.</p>
           </div>
 
           <div class="components-panel">
             <h2>Komponenty gitary</h2>
             <div class="component-grid">
-              <button class="component-button" type="button" data-part="head">Hlava</button>
-              <button class="component-button" type="button" data-part="tuning">Ladiace mechaniky</button>
-              <button class="component-button" type="button" data-part="neck">Krk</button>
-              <button class="component-button" type="button" data-part="fretboard">Hmatník</button>
-              <button class="component-button" type="button" data-part="fret">Pražce</button>
-              <button class="component-button" type="button" data-part="strings">Struny</button>
-              <button class="component-button" type="button" data-part="body">Telo</button>
-              <button class="component-button" type="button" data-part="pickups">Snímače</button>
-              <button class="component-button" type="button" data-part="nut">Kobylka</button>
-              <button class="component-button" type="button" data-part="controls">Ovládacie panely</button>
-              <button class="component-button" type="button" data-part="switch">Prepínač</button>
-              <button class="component-button" type="button" data-part="jack">Konektor (Jack)</button>
+              <button class="component-button" type="button" data-part="head" aria-label="Hlava" aria-pressed="false">Hlava</button>
+              <button class="component-button" type="button" data-part="tuning" aria-label="Ladiace mechaniky" aria-pressed="false">Ladiace mechaniky</button>
+              <button class="component-button" type="button" data-part="neck" aria-label="Krk" aria-pressed="false">Krk</button>
+              <button class="component-button" type="button" data-part="fretboard" aria-label="Hmatník" aria-pressed="false">Hmatník</button>
+              <button class="component-button" type="button" data-part="fret" aria-label="Pražce" aria-pressed="false">Pražce</button>
+              <button class="component-button" type="button" data-part="strings" aria-label="Struny" aria-pressed="false">Struny</button>
+              <button class="component-button" type="button" data-part="body" aria-label="Telo" aria-pressed="false">Telo</button>
+              <button class="component-button" type="button" data-part="pickups" aria-label="Snímače" aria-pressed="false">Snímače</button>
+              <button class="component-button" type="button" data-part="nut" aria-label="Kobylka" aria-pressed="false">Kobylka</button>
+              <button class="component-button" type="button" data-part="controls" aria-label="Ovládacie panely" aria-pressed="false">Ovládacie panely</button>
+              <button class="component-button" type="button" data-part="switch" aria-label="Prepínač" aria-pressed="false">Prepínač</button>
+              <button class="component-button" type="button" data-part="jack" aria-label="Konektor (Jack)" aria-pressed="false">Konektor (Jack)</button>
             </div>
             <div class="part-detail" id="part-detail">Vyberte časť gitary pre zobrazenie jej funkcie.</div>
           </div>

@@ -110,40 +110,81 @@ document.addEventListener('click', (event) => {
   }
 });
 
-const partDetails = {
-  head: 'Hlava nesie ladiace mechaniky a drží struny v správnom postavení.',
-  tuning: 'Ladiace mechaniky umožňujú doladenie každej struny na požadovaný tón.',
-  neck: 'Krk podpiera hmatník a ovplyvňuje pohodlie hry aj stabilitu strún.',
-  fretboard: 'Hmatník je miesto, kde prsty skracujú struny a vytvárajú tóny.',
-  fret: 'Pražce rozdeľujú hmatník a určujú vzdialenosti jednotlivých tónov.',
-  strings: 'Struny menia napätie a kmitajú, čím vytvárajú zvuk gitary.',
-  body: 'Telo nesie elektro-mechanické komponenty a ovplyvňuje rezonanciu nástroja.',
-  pickups: 'Snímače premieňajú kmitanie strún na elektrický signál.',
-  nut: 'Kobylka na hmatníku vedie struny a nastavuje ich vzdialenosti.',
-  bridge: 'Mostík prenáša vibrácie strún na telo a drží ich na správnej výške.',
-  controls: 'Ovládacie panely menia hlasitosť a farebnosť zosilneného zvuku.',
-  switch: 'Prepínač mení výber snímačov a charakter gitarového zvuku.',
-  jack: 'Konektor Jack odvádza elektrický signál k kombinácii alebo zosilňovaču.'
+const guitarPartPositions = {
+  head: { name: 'Hlava', x: 50, y: 9 },
+  tuning: { name: 'Ladiace mechaniky', x: 38, y: 13 },
+  neck: { name: 'Krk', x: 50, y: 32 },
+  fretboard: { name: 'Hmatník', x: 54, y: 39 },
+  fret: { name: 'Pražce', x: 46, y: 43 },
+  strings: { name: 'Struny', x: 50, y: 56 },
+  body: { name: 'Telo', x: 50, y: 69 },
+  pickups: { name: 'Snímače', x: 46, y: 64 },
+  nut: { name: 'Kobylka', x: 58, y: 72 },
+  controls: { name: 'Ovládacie panely', x: 62, y: 78 },
+  switch: { name: 'Prepínač', x: 38, y: 75 },
+  jack: { name: 'Konektor (Jack)', x: 68, y: 84 }
+};
+
+const guitarPartDetails = {
+  head: 'Horná časť gitary, na ktorej sú upevnené ladiace mechaniky. Často nesie logo značky.',
+  tuning: 'Otočné kolíky na hlave, ktorými sa napína a ladí každá struna.',
+  neck: 'Dlhá drevená časť, na ktorej sú hmatník a pražce. Jeho tvar ovplyvňuje pohodlie hry.',
+  fretboard: 'Doska na krku, na ktorú hráč pritláča struny. Býva z palisandra, javora alebo ebenu.',
+  fret: 'Kovové pásiky na hmatníku, ktoré určujú výšku jednotlivých tónov.',
+  strings: 'Kovové struny, ktorých kmitanie vytvára zvuk. Hrúbka a materiál ovplyvňujú tón.',
+  body: 'Hlavná časť gitary, v ktorej sú uložené snímače a elektronika. Ovplyvňuje vzhľad aj charakter zvuku.',
+  pickups: 'Magnetické snímače, ktoré menia kmitanie strún na elektrický signál. Najčastejšie jednocievkové alebo humbuckery.',
+  nut: 'Časť na tele, ktorá drží struny a prenáša ich kmity. Niektoré kobylky obsahujú tremolo.',
+  controls: 'Potenciometre hlasitosti a tónu, ktorými hráč upravuje zvuk priamo na gitare.',
+  switch: 'Prepína medzi snímačmi alebo ich kombináciami, čím mení farbu tónu.',
+  jack: 'Zdierka na tele, do ktorej sa zapája kábel k zosilňovaču.'
 };
 
 const detail = document.querySelector('#part-detail');
+const originalDetailText = 'Vyberte časť gitary pre zobrazenie jej funkcie.';
+let activePart = null;
 
-function selectPart(part) {
-  if (!partDetails[part]) return;
-  document.querySelectorAll('.component-button, .hotspot').forEach((item) => {
-    item.classList.toggle('active', item.dataset.part === part);
-  });
-  if (detail) detail.textContent = partDetails[part];
+function renderPartDetail(part) {
+  if (!detail) return;
+  detail.classList.remove('is-changing');
+  void detail.offsetWidth;
+
+  if (!part) {
+    detail.textContent = originalDetailText;
+  } else {
+    detail.replaceChildren();
+    const title = document.createElement('strong');
+    title.textContent = guitarPartPositions[part].name;
+    const description = document.createElement('span');
+    description.textContent = guitarPartDetails[part];
+    detail.append(title, description);
+  }
+  detail.classList.add('is-changing');
 }
 
-document.querySelectorAll('.component-button, .hotspot').forEach((item) => {
-  item.addEventListener('click', () => selectPart(item.dataset.part));
-  item.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault();
-      selectPart(item.dataset.part);
-    }
+function selectPart(part) {
+  if (!guitarPartDetails[part]) return;
+  const nextPart = activePart === part ? null : part;
+  activePart = nextPart;
+
+  document.querySelectorAll('.component-button, .hotspot').forEach((item) => {
+    const isActive = item.dataset.part === nextPart;
+    item.classList.toggle('active', isActive);
+    item.setAttribute('aria-pressed', String(isActive));
   });
+  renderPartDetail(nextPart);
+}
+
+document.querySelectorAll('.hotspot').forEach((hotspot) => {
+  const part = guitarPartPositions[hotspot.dataset.part];
+  if (!part) return;
+  hotspot.style.left = `${part.x}%`;
+  hotspot.style.top = `${part.y}%`;
+  hotspot.addEventListener('click', () => selectPart(hotspot.dataset.part));
+});
+
+document.querySelectorAll('.component-button').forEach((button) => {
+  button.addEventListener('click', () => selectPart(button.dataset.part));
 });
 
 const priceTabs = document.querySelectorAll('.price-tab');
