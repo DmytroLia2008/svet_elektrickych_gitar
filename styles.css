@@ -23,6 +23,7 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  overflow-x: hidden;
   background: var(--canvas);
   color: var(--ink);
   font-family: Inter, system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
@@ -36,9 +37,11 @@ body {
   left: 0;
   right: 0;
   height: var(--header-height);
-  display: grid;
-  grid-template-columns: var(--sidebar-width) 1fr auto;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
+  gap: 24px;
+  padding: 0 32px 0 14px;
   border-bottom: 1px solid #edf0f5;
   background: rgba(255, 255, 255, 0.98);
 }
@@ -48,12 +51,12 @@ body {
   align-items: center;
   gap: 8px;
   width: max-content;
-  margin-left: 14px;
   color: var(--ink);
   font-size: 14px;
   font-weight: 700;
   text-decoration: none;
   white-space: nowrap;
+  flex: none;
 }
 
 .brand-mark {
@@ -72,11 +75,12 @@ body {
 }
 
 .topnav {
-  justify-self: start;
   display: flex;
   align-items: center;
   gap: 27px;
-  padding-left: 13px;
+  margin-right: auto;
+  margin-left: 24px;
+  white-space: nowrap;
 }
 
 .topnav a {
@@ -93,8 +97,8 @@ body {
 .top-actions {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding-right: 16px;
+  flex: none;
+  margin-left: auto;
 }
 
 .search {
@@ -133,23 +137,6 @@ body {
 
 .search input::placeholder {
   color: #8391a7;
-}
-
-.profile {
-  width: 35px;
-  height: 35px;
-  display: grid;
-  place-items: center;
-  border: 0;
-  border-radius: 50%;
-  background: #f7f9fc;
-  color: #1b2a48;
-  cursor: pointer;
-}
-
-.profile svg {
-  width: 20px;
-  height: 20px;
 }
 
 .sidebar {
@@ -354,15 +341,6 @@ body.encyclopedia-mode {
   --sidebar-width: 260px;
 }
 
-body.encyclopedia-mode .brand {
-  margin-left: 60px;
-}
-
-body.encyclopedia-mode .topnav {
-  position: absolute;
-  left: 343px;
-}
-
 [hidden] {
   display: none !important;
 }
@@ -373,8 +351,8 @@ body.encyclopedia-mode .topnav {
   grid-template-columns: 1fr 352px;
   align-items: start;
   gap: 42px;
-  margin: 0 16px;
-  padding: 78px 47px 32px 13px;
+  margin: 0 32px;
+  padding: 78px 32px 32px;
   border-bottom: 1px solid #edf0f5;
   background: var(--canvas);
 }
@@ -494,8 +472,8 @@ body.encyclopedia-mode .topnav {
   grid-template-columns: 1fr 360px;
   align-items: start;
   gap: 40px;
-  margin: 0 16px;
-  padding: 29px 17px 32px 13px;
+  margin: 0 32px;
+  padding: 29px 32px 32px;
   background: var(--canvas);
 }
 
@@ -542,7 +520,7 @@ body.encyclopedia-mode .topnav {
   display: flex;
   align-items: center;
   gap: 7px;
-  margin: 0 32px 0 43px;
+  margin: 0 32px;
   border-bottom: 1px solid #edf0f5;
   color: #63748d;
   font-size: 9px;
@@ -558,7 +536,7 @@ body.encyclopedia-mode .topnav {
 
 .encyclopedia {
   height: 178px;
-  margin: 0 32px 0 43px;
+  margin: 0 32px;
   padding-top: 29px;
   border-bottom: 1px solid #edf0f5;
 }
@@ -597,8 +575,9 @@ body.encyclopedia-mode .topnav {
 }
 
 .shapes {
-  margin: 0 32px 0 43px;
+  margin: 0 32px;
   padding-top: 10px;
+  padding-bottom: 56px;
 }
 
 .shapes-heading {
@@ -632,22 +611,22 @@ body.encyclopedia-mode .topnav {
   font-size: 8.5px;
   font-weight: 500;
   line-height: 1.55;
+  text-align: right;
 }
 
 .shape-grid {
   width: 100%;
-  max-width: 606px;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 11px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 28px 32px;
 }
 
 .shape-card {
   min-width: 0;
-  min-height: 382px;
+  height: auto;
   display: flex;
   flex-direction: column;
-  overflow: visible;
   border: 1px solid #e2e7ef;
   border-radius: 7px;
   background: #fff;
@@ -656,7 +635,7 @@ body.encyclopedia-mode .topnav {
 
 .shape-photo {
   position: relative;
-  height: 82px;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
   border-bottom: 1px solid #edf0f4;
 }
@@ -688,15 +667,15 @@ body.encyclopedia-mode .topnav {
 
 .shape-body {
   flex: 1;
-  min-height: 300px;
-  padding: 12px 10px 52px;
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 12px 10px 12px;
 }
 
 .shape-body h3 {
   margin: 0 0 5px;
   color: #111827;
-  font-size: 15px;
+  font-size: 20px;
   font-weight: 800;
   line-height: 1.2;
 }
@@ -737,6 +716,15 @@ body.encyclopedia-mode .topnav {
   color: #627da7;
 }
 
+.shape-body .card-button {
+  position: static;
+  width: max-content;
+  max-width: calc(100% - 20px);
+  align-self: flex-start;
+  margin-top: auto;
+  padding: 0 12px;
+}
+
 .card-button {
   position: absolute;
   left: 10px;
@@ -769,18 +757,9 @@ body.parts-mode {
   --sidebar-width: 260px;
 }
 
-body.parts-mode .brand {
-  margin-left: 60px;
-}
-
-body.parts-mode .topnav {
-  position: absolute;
-  left: 343px;
-}
-
 .parts-header {
   height: 80px;
-  margin: 0 32px 0 43px;
+  margin: 0 32px;
   padding-top: 15px;
   border-bottom: 1px solid #edf0f5;
 }
@@ -811,7 +790,7 @@ body.parts-mode .topnav {
 }
 
 .parts-section {
-  margin: 0 32px 0 43px;
+  margin: 0 32px;
   padding-top: 10px;
 }
 
@@ -987,18 +966,9 @@ body.manufacturers-mode {
   --sidebar-width: 260px;
 }
 
-body.manufacturers-mode .brand {
-  margin-left: 60px;
-}
-
-body.manufacturers-mode .topnav {
-  position: absolute;
-  left: 343px;
-}
-
 .manufacturers-header {
   height: 143px;
-  margin: 0 32px 0 43px;
+  margin: 0 32px;
   padding-top: 29px;
   border-bottom: 1px solid #edf0f5;
 }
@@ -1037,7 +1007,7 @@ body.manufacturers-mode .topnav {
 }
 
 .manufacturers-section {
-  margin: 0 32px 0 43px;
+  margin: 0 32px;
   padding-top: 15px;
 }
 
@@ -1066,7 +1036,7 @@ body.manufacturers-mode .topnav {
 }
 
 .manufacturer-grid {
-  max-width: 606px;
+  width: 100%;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
@@ -1155,18 +1125,9 @@ body.beginners-mode {
   --sidebar-width: 260px;
 }
 
-body.beginners-mode .brand {
-  margin-left: 60px;
-}
-
-body.beginners-mode .topnav {
-  position: absolute;
-  left: 343px;
-}
-
 .beginners-header {
   height: 93px;
-  margin: 0 32px 0 43px;
+  margin: 0 32px;
   padding-top: 21px;
   border-bottom: 1px solid #edf0f5;
 }
@@ -1209,7 +1170,7 @@ body.beginners-mode .topnav {
 }
 
 .beginners-section {
-  margin: 0 32px 0 43px;
+  margin: 0 32px;
   padding-top: 12px;
 }
 
@@ -1272,7 +1233,6 @@ body.beginners-mode .topnav {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 10px;
-  max-width: 606px;
 }
 
 .beginner-card {
@@ -1390,7 +1350,7 @@ body.beginners-mode .topnav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 0 32px 0 43px;
+  margin: 0 32px;
   border-top: 1px solid #edf0f5;
   color: #718096;
   font-size: 7.5px;
@@ -1414,33 +1374,16 @@ body.beginners-mode .topnav {
     --sidebar-width: 240px;
   }
 
-  body.parts-mode .brand,
-  body.encyclopedia-mode .brand,
-  body.manufacturers-mode .brand,
-  body.beginners-mode .brand {
-    margin-left: 21px;
-  }
-
-  body.parts-mode .topnav,
-  body.encyclopedia-mode .topnav,
-  body.manufacturers-mode .topnav,
-  body.beginners-mode .topnav {
-    position: static;
-  }
-
-  .topbar {
-    grid-template-columns: var(--sidebar-width) 1fr auto;
-  }
-
   .brand span:last-child {
     display: none;
   }
 
   .brand {
-    margin-left: 21px;
+    margin-left: 0;
   }
 
   .topnav {
+    margin-left: 12px;
     gap: 12px;
   }
 
@@ -1465,11 +1408,30 @@ body.beginners-mode .topnav {
   .guitar-image {
     width: 276px;
   }
+
+  .shape-grid,
+  .beginner-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .manufacturer-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .shape-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 680px) {
   :root {
     --header-height: 58px;
+  }
+
+  .topbar {
+    padding-right: 16px;
   }
 
   body.parts-mode,
@@ -1479,26 +1441,11 @@ body.beginners-mode .topnav {
     --sidebar-width: 72px;
   }
 
-  body.parts-mode .brand,
-  body.encyclopedia-mode .brand,
-  body.manufacturers-mode .brand,
-  body.beginners-mode .brand {
-    margin-left: 14px;
-  }
-
-  .topbar {
-    grid-template-columns: 72px 1fr auto;
-  }
-
   .brand {
-    margin-left: 14px;
+    margin-left: 0;
   }
 
   .topnav {
-    justify-self: center;
-  }
-
-  .topnav a:nth-child(n+5) {
     display: none;
   }
 
@@ -1512,10 +1459,6 @@ body.beginners-mode .topnav {
 
   .search {
     justify-content: center;
-  }
-
-  .profile {
-    display: none;
   }
 
   .sidebar {
@@ -1613,15 +1556,7 @@ body.beginners-mode .topnav {
   }
 
   .shape-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .shape-card {
-    min-height: 330px;
-  }
-
-  .shape-body {
-    min-height: 248px;
+    grid-template-columns: 1fr;
   }
 
   .parts-header,
@@ -1705,16 +1640,34 @@ body.beginners-mode .topnav {
 }
 
 @media (max-width: 480px) {
+  .shapes-heading {
+    height: auto;
+    grid-template-columns: 1fr;
+  }
+
+  .shapes-heading > p {
+    margin-top: 8px;
+  }
+
   .shape-grid {
     grid-template-columns: 1fr;
   }
 
-  .shape-card {
-    min-height: 300px;
+  .manufacturer-grid,
+  .beginner-grid {
+    grid-template-columns: 1fr;
   }
 
-  .shape-body {
-    min-height: 218px;
+}
+
+@media (min-width: 1801px) {
+  #home-page,
+  #encyclopedia-page,
+  #manufacturers-page {
+    width: 100%;
+    max-width: 1600px;
+    margin-right: auto;
+    margin-left: auto;
   }
 }
 
