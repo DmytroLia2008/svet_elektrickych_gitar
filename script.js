@@ -186,32 +186,32 @@ document.querySelector('#sort-price')?.addEventListener('click', () => {
 
 const guitarGalleries = {
   Stratocaster: [
-    { src: '', description: 'Stratocaster – fotografia 1' },
-    { src: '', description: 'Stratocaster – fotografia 2' },
-    { src: '', description: 'Stratocaster – fotografia 3' },
-    { src: '', description: 'Stratocaster – fotografia 4' },
-    { src: '', description: 'Stratocaster – fotografia 5' }
+    { src: 'img/strat1.webp', description: 'Stratocaster – fotografia 1', fit: 'cover', position: 'center' },
+    { src: 'img/strat2.webp', description: 'Stratocaster – fotografia 2' },
+    { src: 'img/strat3.avif', description: 'Stratocaster – fotografia 3' },
+    { src: 'img/strat4.jpg', description: 'Stratocaster – fotografia 4' },
+    { src: 'img/strat5.jpg', description: 'Stratocaster – fotografia 5', position: 'center' }
   ],
   Telecaster: [
-    { src: '', description: 'Telecaster – fotografia 1' },
-    { src: '', description: 'Telecaster – fotografia 2' },
-    { src: '', description: 'Telecaster – fotografia 3' },
-    { src: '', description: 'Telecaster – fotografia 4' },
-    { src: '', description: 'Telecaster – fotografia 5' }
+    { src: 'img/tele1.jpg', description: 'Telecaster – fotografia 1', fit: 'cover', position: 'center' },
+    { src: 'img/tele2.jpg', description: 'Telecaster – fotografia 2', fit: 'cover', position: 'center' },
+    { src: 'img/tele3.jpg', description: 'Telecaster – fotografia 3' },
+    { src: 'img/tele4.webp', description: 'Telecaster – fotografia 4' },
+    { src: 'img/tele5.jpg', description: 'Telecaster – fotografia 5' }
   ],
   'Les Paul': [
-    { src: '', description: 'Les Paul – fotografia 1' },
-    { src: '', description: 'Les Paul – fotografia 2' },
-    { src: '', description: 'Les Paul – fotografia 3' },
-    { src: '', description: 'Les Paul – fotografia 4' },
-    { src: '', description: 'Les Paul – fotografia 5' }
+    { src: 'img/lp1.webp', description: 'Les Paul – fotografia 1', fit: 'cover', position: 'center' },
+    { src: 'img/lp2.jpg', description: 'Les Paul – fotografia 2' },
+    { src: 'img/lp3.webp', description: 'Les Paul – fotografia 3' },
+    { src: 'img/lp4.webp', description: 'Les Paul – fotografia 4', fit: 'cover', position: 'center' },
+    { src: 'img/lp5.jpg', description: 'Les Paul – fotografia 5' }
   ],
   SG: [
-    { src: '', description: 'SG – fotografia 1' },
-    { src: '', description: 'SG – fotografia 2' },
-    { src: '', description: 'SG – fotografia 3' },
-    { src: '', description: 'SG – fotografia 4' },
-    { src: '', description: 'SG – fotografia 5' }
+    { src: 'img/sg1.jpg', description: 'SG – fotografia 1' },
+    { src: 'img/sg2.jpg', description: 'SG – fotografia 2' },
+    { src: 'img/sg3.webp', description: 'SG – fotografia 3' },
+    { src: 'img/sg4.jpg', description: 'SG – fotografia 4' },
+    { src: 'img/sg5.jpg', description: 'SG – fotografia 5' }
   ]
 };
 
@@ -237,12 +237,14 @@ function createPlaceholder(description) {
   return placeholder;
 }
 
-function createGalleryMedia(item, description) {
+function createGalleryMedia(item, description, isThumbnail = false) {
   if (!item?.src) return createPlaceholder(description);
 
   const image = document.createElement('img');
   image.src = item.src;
   image.alt = item.description || description;
+  image.style.setProperty('--gallery-fit', item.fit || (isThumbnail ? 'cover' : 'contain'));
+  image.style.setProperty('--gallery-position', item.position || 'center');
   image.addEventListener('error', () => {
     image.replaceWith(createPlaceholder(item.description || description));
   }, { once: true });
@@ -288,7 +290,7 @@ function renderGallery(guitarName) {
       thumbnail.type = 'button';
       thumbnail.className = 'guitar-modal__thumbnail';
       thumbnail.setAttribute('aria-label', `Zobraziť ${description}`);
-      thumbnail.append(createGalleryMedia(item, description));
+      thumbnail.append(createGalleryMedia(item, description, true));
       thumbnail.addEventListener('click', () => showGalleryImage(index));
       guitarModalThumbnails.append(thumbnail);
     });
