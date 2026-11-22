@@ -183,3 +183,184 @@ document.querySelector('#sort-price')?.addEventListener('click', () => {
       : Number(b.dataset.price) - Number(a.dataset.price))
     .forEach((card) => grid.appendChild(card));
 });
+
+const guitarGalleries = {
+  Stratocaster: [
+    { src: '', description: 'Stratocaster – fotografia 1' },
+    { src: '', description: 'Stratocaster – fotografia 2' },
+    { src: '', description: 'Stratocaster – fotografia 3' },
+    { src: '', description: 'Stratocaster – fotografia 4' },
+    { src: '', description: 'Stratocaster – fotografia 5' }
+  ],
+  Telecaster: [
+    { src: '', description: 'Telecaster – fotografia 1' },
+    { src: '', description: 'Telecaster – fotografia 2' },
+    { src: '', description: 'Telecaster – fotografia 3' },
+    { src: '', description: 'Telecaster – fotografia 4' },
+    { src: '', description: 'Telecaster – fotografia 5' }
+  ],
+  'Les Paul': [
+    { src: '', description: 'Les Paul – fotografia 1' },
+    { src: '', description: 'Les Paul – fotografia 2' },
+    { src: '', description: 'Les Paul – fotografia 3' },
+    { src: '', description: 'Les Paul – fotografia 4' },
+    { src: '', description: 'Les Paul – fotografia 5' }
+  ],
+  SG: [
+    { src: '', description: 'SG – fotografia 1' },
+    { src: '', description: 'SG – fotografia 2' },
+    { src: '', description: 'SG – fotografia 3' },
+    { src: '', description: 'SG – fotografia 4' },
+    { src: '', description: 'SG – fotografia 5' }
+  ]
+};
+
+const guitarModal = document.querySelector('#guitar-modal');
+const guitarModalDialog = guitarModal?.querySelector('.guitar-modal__dialog');
+const guitarModalTitle = guitarModal?.querySelector('#guitar-modal-title');
+const guitarModalMain = guitarModal?.querySelector('.guitar-modal__main');
+const guitarModalPosition = guitarModal?.querySelector('.guitar-modal__position');
+const guitarModalThumbnails = guitarModal?.querySelector('.guitar-modal__thumbnails');
+const guitarModalPrev = guitarModal?.querySelector('.guitar-modal__arrow--prev');
+const guitarModalNext = guitarModal?.querySelector('.guitar-modal__arrow--next');
+let currentGallery = [];
+let currentIndex = 0;
+let modalTrigger = null;
+let closeTimer = null;
+
+function createPlaceholder(description) {
+  const placeholder = document.createElement('div');
+  placeholder.className = 'guitar-modal__placeholder';
+  placeholder.setAttribute('role', 'img');
+  placeholder.setAttribute('aria-label', description);
+  placeholder.textContent = description;
+  return placeholder;
+}
+
+function createGalleryMedia(item, description) {
+  if (!item?.src) return createPlaceholder(description);
+
+  const image = document.createElement('img');
+  image.src = item.src;
+  image.alt = item.description || description;
+  image.addEventListener('error', () => {
+    image.replaceWith(createPlaceholder(item.description || description));
+  }, { once: true });
+  return image;
+}
+
+function showGalleryImage(index) {
+  if (!currentGallery.length) return;
+  currentIndex = (index + currentGallery.length) % currentGallery.length;
+  const item = currentGallery[currentIndex];
+  const description = item.description || `${guitarModalTitle?.textContent} – fotografia ${currentIndex + 1}`;
+
+  if (guitarModalMain) {
+    guitarModalMain.replaceChildren(createGalleryMedia(item, description));
+  }
+  if (guitarModalPosition) {
+    guitarModalPosition.textContent = `${currentIndex + 1} / ${currentGallery.length}`;
+  }
+
+  guitarModalThumbnails?.querySelectorAll('.guitar-modal__thumbnail').forEach((thumbnail, thumbnailIndex) => {
+    const isActive = thumbnailIndex === currentIndex;
+    thumbnail.classList.toggle('is-active', isActive);
+    thumbnail.setAttribute('aria-current', isActive ? 'true' : 'false');
+  });
+}
+
+function renderGallery(guitarName) {
+  const gallery = guitarGalleries[guitarName];
+  currentGallery = Array.isArray(gallery) && gallery.length
+    ? gallery
+    : Array.from({ length: 5 }, (_, index) => ({
+        src: '',
+        description: `${guitarName} – fotografia ${index + 1}`
+      }));
+  currentIndex = 0;
+
+  if (guitarModalTitle) guitarModalTitle.textContent = guitarName;
+  if (guitarModalThumbnails) {
+    guitarModalThumbnails.replaceChildren();
+    currentGallery.forEach((item, index) => {
+      const description = item.description || `${guitarName} – fotografia ${index + 1}`;
+      const thumbnail = document.createElement('button');
+      thumbnail.type = 'button';
+      thumbnail.className = 'guitar-modal__thumbnail';
+      thumbnail.setAttribute('aria-label', `Zobraziť ${description}`);
+      thumbnail.append(createGalleryMedia(item, description));
+      thumbnail.addEventListener('click', () => showGalleryImage(index));
+      guitarModalThumbnails.append(thumbnail);
+    });
+  }
+  showGalleryImage(0);
+}
+
+function openGuitarModal(guitarName, trigger) {
+  if (!guitarModal) return;
+  modalTrigger = trigger;
+  renderGallery(guitarName);
+  guitarModal.hidden = false;
+  document.body.classList.add('modal-open');
+  window.clearTimeout(closeTimer);
+  window.requestAnimationFrame(() => {
+    guitarModal.classList.add('is-open');
+    guitarModalDialog?.focus();
+  });
+}
+
+function closeGuitarModal() {
+  if (!guitarModal || guitarModal.hidden) return;
+  guitarModal.classList.remove('is-open');
+  document.body.classList.remove('modal-open');
+  closeTimer = window.setTimeout(() => {
+    guitarModal.hidden = true;
+    modalTrigger?.focus();
+  }, 180);
+}
+
+document.querySelectorAll('[data-guitar]').forEach((button) => {
+  button.addEventListener('click', () => {
+    openGuitarModal(button.dataset.guitar, button);
+  });
+});
+
+guitarModal?.querySelectorAll('[data-modal-close]').forEach((element) => {
+  element.addEventListener('click', closeGuitarModal);
+});
+
+guitarModalPrev?.addEventListener('click', () => showGalleryImage(currentIndex - 1));
+guitarModalNext?.addEventListener('click', () => showGalleryImage(currentIndex + 1));
+
+document.addEventListener('keydown', (event) => {
+  if (!guitarModal || guitarModal.hidden) return;
+
+  if (event.key === 'Escape') {
+    event.preventDefault();
+    closeGuitarModal();
+  } else if (event.key === 'ArrowLeft') {
+    event.preventDefault();
+    showGalleryImage(currentIndex - 1);
+  } else if (event.key === 'ArrowRight') {
+    event.preventDefault();
+    showGalleryImage(currentIndex + 1);
+  } else if (event.key === 'Tab' && guitarModalDialog) {
+    const focusable = Array.from(guitarModalDialog.querySelectorAll(
+      'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    ));
+    if (!focusable.length) {
+      event.preventDefault();
+      guitarModalDialog.focus();
+      return;
+    }
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && (document.activeElement === first || document.activeElement === guitarModalDialog)) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  }
+});

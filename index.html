@@ -143,7 +143,7 @@
               <h3>Stratocaster</h3>
               <p>Kontúrované telo s dvojitým výrezom, tri jednocievkové snímače a tremolo. Navrhnutá v rokoch 1952 až 1954 tímom okolo Lea Fendera, na trh prišla v roku 1954.</p>
               <ul><li class="genre">Rock, blues</li><li class="tone">Jasný a artikulovaný tón</li></ul>
-              <a class="card-button" href="#">Preskúmať tvar <span aria-hidden="true">→</span></a>
+              <button class="card-button" type="button" data-guitar="Stratocaster" aria-haspopup="dialog">Preskúmať tvar <span aria-hidden="true">→</span></button>
             </div>
           </article>
           <article class="shape-card">
@@ -152,7 +152,7 @@
               <h3>Telecaster</h3>
               <p>Jedna z prvých sériovo vyrábaných gitár s plným telom. Jednoduché telo s jedným výrezom, skrutkovaný krk a charakteristický, čistý zvuk. Vznikla v roku 1950.</p>
               <ul><li class="genre">Rock, blues, country</li><li class="tone">Priamy a ostrý zvuk</li></ul>
-              <a class="card-button" href="#">Preskúmať tvar <span aria-hidden="true">→</span></a>
+              <button class="card-button" type="button" data-guitar="Telecaster" aria-haspopup="dialog">Preskúmať tvar <span aria-hidden="true">→</span></button>
             </div>
           </article>
           <article class="shape-card">
@@ -161,7 +161,7 @@
               <h3>Les Paul</h3>
               <p>Gitara s jedným výrezom, mahagónovým telom s javorovým vrchom a vlepeným krkom, zvyčajne s dvoma humbuckermi. Prvýkrát sa predala v roku 1952, vznikla v spolupráci s gitaristom Lesom Paulom.</p>
               <ul><li class="genre">Rock, hard rock, heavy metal</li><li class="tone">Teplý tón s dlhým sustainom</li></ul>
-              <a class="card-button" href="#">Preskúmať tvar <span aria-hidden="true">→</span></a>
+              <button class="card-button" type="button" data-guitar="Les Paul" aria-haspopup="dialog">Preskúmať tvar <span aria-hidden="true">→</span></button>
             </div>
           </article>
           <article class="shape-card">
@@ -170,7 +170,7 @@
               <h3>SG</h3>
               <p>Gibson ju uviedol v roku 1961 s dvojitým výrezom a vlepeným krkom. Skratka SG znamená „solid guitar“. SG Standard je najpredávanejší model značky.</p>
               <ul><li class="genre">Hard rock, classic rock, heavy metal</li><li class="tone">Ostrý, energický útok</li></ul>
-              <a class="card-button" href="#">Preskúmať tvar <span aria-hidden="true">→</span></a>
+              <button class="card-button" type="button" data-guitar="SG" aria-haspopup="dialog">Preskúmať tvar <span aria-hidden="true">→</span></button>
             </div>
           </article>
         </div>
@@ -446,6 +446,29 @@
       </footer>
     </div>
   </main>
+
+  <div class="guitar-modal" id="guitar-modal" hidden>
+    <div class="guitar-modal__backdrop" data-modal-close></div>
+    <section class="guitar-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="guitar-modal-title" aria-describedby="guitar-modal-description" tabindex="-1">
+      <header class="guitar-modal__header">
+        <div>
+          <span class="guitar-modal__kicker">GALÉRIA TVARU</span>
+          <h2 id="guitar-modal-title">Gitary</h2>
+        </div>
+        <button class="guitar-modal__close" type="button" aria-label="Zavrieť galériu" data-modal-close>
+          <span aria-hidden="true">×</span>
+        </button>
+      </header>
+      <p class="guitar-modal__description" id="guitar-modal-description">Prehliadka obrázkov vybranej gitary.</p>
+      <div class="guitar-modal__viewer">
+        <button class="guitar-modal__arrow guitar-modal__arrow--prev" type="button" aria-label="Predchádzajúci obrázok">‹</button>
+        <div class="guitar-modal__main" aria-live="polite"></div>
+        <button class="guitar-modal__arrow guitar-modal__arrow--next" type="button" aria-label="Nasledujúci obrázok">›</button>
+      </div>
+      <div class="guitar-modal__position" aria-live="polite"></div>
+      <div class="guitar-modal__thumbnails" aria-label="Náhľady obrázkov"></div>
+    </section>
+  </div>
 
   <script src="script.js"></script>
 </body>

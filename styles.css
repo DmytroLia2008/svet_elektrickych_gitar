@@ -748,13 +748,16 @@ body.encyclopedia-mode .topnav {
   align-items: center;
   justify-content: center;
   padding: 0 12px;
+  border: 0;
   border-radius: 3px;
   background: #17264f;
   color: #fff;
+  font-family: inherit;
   font-size: 13px;
   font-weight: 700;
   text-decoration: none;
   white-space: nowrap;
+  cursor: pointer;
 }
 
 .card-button span {
@@ -1712,5 +1715,241 @@ body.beginners-mode .topnav {
 
   .shape-body {
     min-height: 218px;
+  }
+}
+
+.guitar-modal {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 180ms ease, visibility 180ms ease;
+}
+
+.guitar-modal.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.guitar-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(11, 24, 53, 0.72);
+  backdrop-filter: blur(2px);
+}
+
+.guitar-modal__dialog {
+  position: relative;
+  z-index: 1;
+  width: min(760px, calc(100vw - 48px));
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--white);
+  box-shadow: 0 18px 48px rgba(11, 24, 53, 0.28);
+  padding: 22px;
+  transform: scale(0.96);
+  transition: transform 180ms ease;
+}
+
+.guitar-modal.is-open .guitar-modal__dialog {
+  transform: scale(1);
+}
+
+.guitar-modal__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.guitar-modal__kicker {
+  display: block;
+  margin-bottom: 3px;
+  color: #718096;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.guitar-modal__header h2 {
+  margin: 0;
+  color: #101b3d;
+  font-size: 26px;
+  line-height: 1.2;
+}
+
+.guitar-modal__close {
+  width: 36px;
+  height: 36px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--white);
+  color: #425a78;
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.guitar-modal__close:hover,
+.guitar-modal__close:focus-visible {
+  border-color: #b8c7df;
+  background: #eef4ff;
+  color: #2346b5;
+}
+
+.guitar-modal__description {
+  margin: 4px 52px 14px 0;
+  color: #425a78;
+  font-size: 12px;
+}
+
+.guitar-modal__viewer {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 44px;
+  align-items: center;
+  gap: 10px;
+}
+
+.guitar-modal__main {
+  height: 360px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #afc8ff;
+}
+
+.guitar-modal__main img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+}
+
+.guitar-modal__arrow {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--white);
+  color: #17264f;
+  font-size: 34px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.guitar-modal__arrow:hover,
+.guitar-modal__arrow:focus-visible {
+  border-color: #2346b5;
+  background: #eef4ff;
+}
+
+.guitar-modal__position {
+  margin-top: 8px;
+  color: #425a78;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.guitar-modal__thumbnails {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.guitar-modal__thumbnail {
+  min-width: 0;
+  height: 72px;
+  overflow: hidden;
+  border: 2px solid transparent;
+  border-radius: 7px;
+  background: #afc8ff;
+  padding: 0;
+  cursor: pointer;
+}
+
+.guitar-modal__thumbnail.is-active {
+  border-color: #2346b5;
+}
+
+.guitar-modal__thumbnail img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.guitar-modal__placeholder {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  background: #afc8ff;
+  color: #17264f;
+  font-size: 11px;
+  font-weight: 700;
+  text-align: center;
+  padding: 10px;
+}
+
+.guitar-modal__thumbnail .guitar-modal__placeholder {
+  font-size: 7px;
+  padding: 4px;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+@media (max-width: 680px) {
+  .guitar-modal {
+    align-items: center;
+    padding: 12px;
+  }
+
+  .guitar-modal__dialog {
+    width: 100%;
+    max-height: calc(100vh - 24px);
+    padding: 16px;
+  }
+
+  .guitar-modal__header h2 {
+    font-size: 22px;
+  }
+
+  .guitar-modal__main {
+    height: min(54vh, 380px);
+  }
+
+  .guitar-modal__viewer {
+    grid-template-columns: 38px minmax(0, 1fr) 38px;
+    gap: 6px;
+  }
+
+  .guitar-modal__arrow {
+    width: 38px;
+    height: 38px;
+  }
+
+  .guitar-modal__thumbnails {
+    gap: 5px;
+  }
+
+  .guitar-modal__thumbnail {
+    height: 58px;
   }
 }
