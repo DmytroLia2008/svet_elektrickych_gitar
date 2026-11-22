@@ -1,75 +1,522 @@
-/* Vzhľad štartovej stránky — vrstva CSS (ako stránka vyzerá).
-   Obsah (čo na stránke je) nájdeš v index.html. */
+:root {
+  --navy: #0b1835;
+  --navy-active: #10265a;
+  --ink: #111827;
+  --body: #465a7a;
+  --blue: #2346b5;
+  --line: #e2e7ef;
+  --canvas: #f7f9fc;
+  --white: #ffffff;
+  --header-height: 65px;
+  --sidebar-width: 195px;
+}
 
 * {
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
+  min-width: 320px;
   min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1.5rem;
-  background: #f8fafc;
-  color: #1e293b;
-  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
   line-height: 1.5;
 }
 
-.uvitanie {
-  max-width: 36rem;
-  text-align: center;
+.topbar {
+  position: fixed;
+  z-index: 20;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--header-height);
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr auto;
+  align-items: center;
+  border-bottom: 1px solid #edf0f5;
+  background: rgba(255, 255, 255, 0.98);
 }
 
-.emoji {
-  font-size: 3rem;
-  margin-bottom: 1rem;
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: max-content;
+  margin-left: 14px;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
 }
 
-h1 {
-  font-size: 1.875rem;
-  margin: 0 0 0.75rem;
+.brand-mark {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
+  background: #1b2a4f;
+  color: var(--white);
 }
 
-.podtext {
-  color: #475569;
-  margin: 0 0 1.5rem;
+.brand-mark svg {
+  width: 20px;
+  height: 20px;
 }
 
-.karta {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 0.75rem;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  padding: 1.25rem;
-  text-align: left;
+.topnav {
+  justify-self: start;
+  display: flex;
+  align-items: center;
+  gap: 27px;
+  padding-left: 13px;
 }
 
-.karta-nadpis {
-  font-weight: 600;
-  margin: 0 0 0.5rem;
+.topnav a {
+  color: #465a7a;
+  font-size: 12px;
+  font-weight: 500;
+  text-decoration: none;
 }
 
-.karta ol {
+.topnav a:hover {
+  color: var(--blue);
+}
+
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-right: 16px;
+}
+
+.search {
+  width: 151px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 9px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: #f7f9fc;
+  color: #8a9ab2;
+}
+
+.search:focus-within {
+  border-color: #b8c7df;
+  background: var(--white);
+}
+
+.search svg {
+  width: 15px;
+  height: 15px;
+  flex: none;
+}
+
+.search input {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 11px;
+}
+
+.search input::placeholder {
+  color: #8391a7;
+}
+
+.profile {
+  width: 35px;
+  height: 35px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: #f7f9fc;
+  color: #1b2a48;
+  cursor: pointer;
+}
+
+.profile svg {
+  width: 20px;
+  height: 20px;
+}
+
+.sidebar {
+  position: fixed;
+  z-index: 10;
+  top: var(--header-height);
+  bottom: 0;
+  left: 0;
+  width: var(--sidebar-width);
+  border-right: 1px solid #edf0f5;
+  background: var(--white);
+}
+
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 24px 14px;
+}
+
+.side-link {
+  height: 41px;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 0 12px;
+  border-radius: 5px;
+  color: #50617d;
+  font-size: 12px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.side-link svg {
+  width: 18px;
+  height: 18px;
+  flex: none;
+}
+
+.side-link.active {
+  height: 34px;
+  background: var(--navy-active);
+  color: var(--white);
+  box-shadow: 0 5px 13px rgba(15, 38, 90, 0.12);
+}
+
+.side-tip {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 14px;
+  min-height: 76px;
+  padding: 15px 13px 10px;
+  border: 1px solid #edf1f6;
+  border-radius: 6px;
+  background: #fbfcfe;
+  color: #4d5d73;
+}
+
+.side-tip strong {
+  color: #9aa7ba;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.side-tip p {
+  margin: 7px 0 0;
+  color: #4c5d76;
+  font-size: 9px;
+  font-style: italic;
+  line-height: 1.25;
+}
+
+.content {
+  min-height: 100vh;
+  margin-left: var(--sidebar-width);
+  padding-top: var(--header-height);
+  background: var(--canvas);
+}
+
+.hero {
+  height: 380px;
+  display: grid;
+  grid-template-columns: 1fr 352px;
+  align-items: start;
+  gap: 42px;
+  margin: 0 16px;
+  padding: 78px 47px 32px 13px;
+  border-bottom: 1px solid #edf0f5;
+  background: var(--canvas);
+}
+
+.hero-copy {
+  min-width: 0;
+}
+
+.eyebrow {
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 10px;
+  padding: 0 11px;
+  border: 1px solid #dfe7f2;
+  border-radius: 3px;
+  background: #f7f9fe;
+  color: #516278;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+
+.eyebrow svg {
+  width: 13px;
+  height: 13px;
+  color: #6d7d96;
+}
+
+.hero h1 {
+  margin: 0 0 15px;
+  color: #101b3d;
+  font-size: clamp(40px, 4.1vw, 48px);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 0.94;
+}
+
+.hero-copy > p {
+  margin: 0 0 26px;
+  color: #465a7a;
+  font-size: 12px;
+  line-height: 1.75;
+}
+
+.primary-button {
+  width: 141px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border: 1px solid #15223e;
+  border-radius: 3px;
+  background: #17264f;
+  color: var(--white);
+  font-size: 10px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 7px 15px rgba(23, 38, 79, 0.08);
+}
+
+.primary-button:hover {
+  background: #2346b5;
+}
+
+.primary-button svg {
+  width: 14px;
+  height: 14px;
+}
+
+.guitar-card {
+  width: 324px;
+  height: 283px;
+  margin: 1px 0 0;
+  padding: 12px;
+  border: 1px solid #e5e9ef;
+  border-radius: 6px;
+  background: var(--white);
+  box-shadow: 0 9px 24px rgba(44, 58, 79, 0.07);
+}
+
+.guitar-image {
+  width: 300px;
+  height: 225px;
+  border: 1px solid #edf0f4;
+  border-radius: 3px;
+  background-color: #fff;
+  background-image: url("docs/prototyp/hlavna_stranka.png");
+  background-repeat: no-repeat;
+  background-size: 994px 722px;
+  background-position: -572px -156px;
+}
+
+.guitar-card figcaption {
+  height: 31px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  color: #536681;
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1;
+}
+
+.guitar-card figcaption span:last-child {
+  color: #2349b1;
+  font-size: 7px;
+  letter-spacing: 0.06em;
+}
+
+.recommendation {
+  min-height: 170px;
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  align-items: start;
+  gap: 40px;
+  margin: 0 16px;
+  padding: 29px 17px 32px 13px;
+  background: var(--canvas);
+}
+
+.section-kicker {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 3px;
+  color: #60748f;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.section-kicker svg {
+  width: 13px;
+  height: 13px;
+  color: #536783;
+}
+
+.recommendation h2 {
   margin: 0;
-  padding-left: 1.25rem;
+  color: #111827;
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.025em;
 }
 
-.karta li {
-  margin-bottom: 0.25rem;
-  color: #334155;
+.recommendation > p {
+  max-width: 280px;
+  margin: 20px 0 0;
+  color: #465a7a;
+  font-size: 10px;
+  line-height: 1.55;
 }
 
-.karta code {
-  background: #f1f5f9;
-  padding: 0 0.25rem;
-  border-radius: 0.25rem;
+.anchor-target {
+  height: 0;
 }
 
-.poznamka {
-  font-size: 0.75rem;
-  color: #94a3b8;
-  margin-top: 1.5rem;
+@media (max-width: 820px) {
+  :root {
+    --sidebar-width: 72px;
+  }
+
+  .topbar {
+    grid-template-columns: var(--sidebar-width) 1fr auto;
+  }
+
+  .brand span:last-child {
+    display: none;
+  }
+
+  .brand {
+    margin-left: 21px;
+  }
+
+  .topnav {
+    gap: 12px;
+  }
+
+  .search {
+    width: 120px;
+  }
+
+  .side-link {
+    justify-content: center;
+    padding: 0;
+  }
+
+  .side-link span,
+  .side-tip {
+    display: none;
+  }
+
+  .hero {
+    grid-template-columns: 1fr 300px;
+    gap: 20px;
+    padding-right: 20px;
+  }
+
+  .guitar-card {
+    width: 300px;
+  }
+
+  .guitar-image {
+    width: 276px;
+  }
+}
+
+@media (max-width: 680px) {
+  :root {
+    --header-height: 58px;
+  }
+
+  .topbar {
+    grid-template-columns: 58px 1fr auto;
+  }
+
+  .brand {
+    margin-left: 14px;
+  }
+
+  .topnav {
+    justify-self: center;
+  }
+
+  .topnav a:not(:first-child) {
+    display: none;
+  }
+
+  .search {
+    width: 36px;
+  }
+
+  .search input {
+    display: none;
+  }
+
+  .search {
+    justify-content: center;
+  }
+
+  .profile {
+    display: none;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .content {
+    margin-left: 0;
+  }
+
+  .hero {
+    height: auto;
+    grid-template-columns: 1fr;
+    margin: 0;
+    padding: 48px 24px 32px;
+  }
+
+  .hero h1 {
+    font-size: 42px;
+  }
+
+  .desktop-break {
+    display: none;
+  }
+
+  .guitar-card {
+    justify-self: center;
+  }
+
+  .recommendation {
+    grid-template-columns: 1fr;
+    margin: 0;
+  }
 }
