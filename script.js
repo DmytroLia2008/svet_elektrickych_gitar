@@ -31,6 +31,38 @@ searchInput?.addEventListener('keydown', (event) => {
   }
 });
 
+const guitarPreviews = [
+  { name: 'Stratocaster', image: 'img/stratocaster.jpg' },
+  { name: 'Telecaster', image: 'img/telecaster.jpeg' },
+  { name: 'Les Paul', image: 'img/les_paul.jpg' },
+  { name: 'SG', image: 'img/sg.jpg' },
+];
+const guitarImage = document.querySelector('.guitar-image');
+const guitarLabel = document.querySelector('.guitar-label');
+const guitarIndex = document.querySelector('.guitar-index');
+let activeGuitarPreview = 0;
+
+function showGuitarPreview(index) {
+  activeGuitarPreview = (index + guitarPreviews.length) % guitarPreviews.length;
+  const preview = guitarPreviews[activeGuitarPreview];
+
+  if (guitarImage) {
+    guitarImage.src = preview.image;
+    guitarImage.alt = `Elektrická gitara ${preview.name}`;
+  }
+  if (guitarLabel) guitarLabel.textContent = preview.name.toLocaleUpperCase('sk');
+  if (guitarIndex) {
+    guitarIndex.textContent = `${String(activeGuitarPreview + 1).padStart(2, '0')} / ${String(guitarPreviews.length).padStart(2, '0')}`;
+  }
+}
+
+document.querySelector('[data-guitar-previous]')?.addEventListener('click', () => {
+  showGuitarPreview(activeGuitarPreview - 1);
+});
+document.querySelector('[data-guitar-next]')?.addEventListener('click', () => {
+  showGuitarPreview(activeGuitarPreview + 1);
+});
+
 document.querySelectorAll('.side-link').forEach((link) => {
   link.addEventListener('click', () => {
     document.querySelectorAll('.side-link').forEach((item) => item.classList.remove('active'));

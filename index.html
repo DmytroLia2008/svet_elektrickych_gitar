@@ -4,6 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Svet elektrických gitár</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -76,19 +79,27 @@
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 14.5c-2 0-3.5-1.5-3.5-3.5S5 7.5 7 7.5h10c2 0 3.5 1.5 3.5 3.5s-1.5 3.5-3.5 3.5M8 8V6m8 2V6M8 16v2m8-2v2M10 11h4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
             <span>SPRIEVODCA SVETOM GITÁR</span>
           </div>
-          <h1 id="hero-title">Objav svet<br>elektrických gitár</h1>
-          <p>Spoznaj tvary, časti a značky elektrických gitár na<br class="desktop-break"> jednom mieste. Vytvor si prehľad a nájdi nástroj, ktorý<br class="desktop-break"> bude sedieť tvojemu štýlu a skúsenostiam.</p>
+          <h1 id="hero-title">Objavte svet<br>elektrických gitár</h1>
+          <p>Spoznajte tvary, časti a značky elektrických gitár na<br class="desktop-break"> jednom mieste. Vytvorte si prehľad a nájdite nástroj,<br class="desktop-break"> ktorý vyhovuje vášmu štýlu a skúsenostiam.</p>
           <a class="primary-button" href="#encyklopedia">
-            <span>Preskúmaj gitary</span>
+            <span>Preskúmajte gitary</span>
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 7l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
         </div>
 
         <figure class="guitar-card">
-          <div class="guitar-image" role="img" aria-label="Elektrická gitara"></div>
+          <img class="guitar-image" src="img/stratocaster.jpg" alt="Elektrická gitara Stratocaster">
           <figcaption>
-            <span>ELEKTRICKÁ GITARA</span>
-            <span>01 / 04</span>
+            <span class="guitar-label">STRATOCASTER</span>
+            <div class="guitar-carousel" role="group" aria-label="Výber gitary">
+              <button class="guitar-carousel-button" type="button" data-guitar-previous aria-label="Predchádzajúca gitara">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 5-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <span class="guitar-index" aria-live="polite" aria-atomic="true">01 / 04</span>
+              <button class="guitar-carousel-button" type="button" data-guitar-next aria-label="Nasledujúca gitara">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
           </figcaption>
         </figure>
       </section>
@@ -97,11 +108,11 @@
         <div>
           <div class="section-kicker">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V9l8-5 8 5v11M8 20v-7h8v7M10 9.5h4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <span>ZAČNI OBJAVOVAŤ</span>
+            <span>ZAČNITE OBJAVOVAŤ</span>
           </div>
-          <h2 id="recommendation-title">Nájdi gitaru, ktorá ti vyhovuje</h2>
+          <h2 id="recommendation-title">Nájdite gitaru, ktorá vám vyhovuje</h2>
         </div>
-        <p>Porovnaj základné tvary a vyber si smer, ktorým sa chceš vydať.</p>
+        <p>Porovnajte základné tvary a vyberte si smer, ktorým sa chcete vydať.</p>
       </section>
 
       <div id="typy" class="anchor-target"></div>

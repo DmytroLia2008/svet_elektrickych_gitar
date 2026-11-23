@@ -346,15 +346,16 @@ body.encyclopedia-mode {
 }
 
 .hero {
-  height: 380px;
+  min-height: 420px;
   display: grid;
-  grid-template-columns: 1fr 352px;
-  align-items: start;
-  gap: 42px;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 360px);
+  align-items: center;
+  gap: clamp(24px, 4vw, 52px);
   margin: 0 32px;
-  padding: 78px 32px 32px;
+  padding: 48px 40px;
   border-bottom: 1px solid #edf0f5;
   background: var(--canvas);
+  font-family: "Plus Jakarta Sans", Inter, system-ui, sans-serif;
 }
 
 .hero-copy {
@@ -372,7 +373,7 @@ body.encyclopedia-mode {
   border-radius: 3px;
   background: #f7f9fe;
   color: #516278;
-  font-size: 8px;
+  font-size: 9px;
   font-weight: 700;
   letter-spacing: 0.18em;
 }
@@ -385,32 +386,32 @@ body.encyclopedia-mode {
 
 .hero h1 {
   margin: 0 0 15px;
-  color: #101b3d;
-  font-size: clamp(40px, 4.1vw, 48px);
+  color: #132240;
+  font-size: clamp(46px, 5vw, 60px);
   font-weight: 800;
   letter-spacing: -0.045em;
-  line-height: 0.94;
+  line-height: 1;
 }
 
 .hero-copy > p {
   margin: 0 0 26px;
   color: #465a7a;
-  font-size: 12px;
-  line-height: 1.75;
+  font-size: clamp(15px, 1.2vw, 17px);
+  line-height: 1.6;
 }
 
 .primary-button {
-  width: 141px;
-  height: 34px;
+  min-height: 44px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 9px;
+  gap: 10px;
+  padding: 0 18px;
   border: 1px solid #15223e;
-  border-radius: 3px;
+  border-radius: 6px;
   background: #17264f;
   color: var(--white);
-  font-size: 10px;
+  font-size: 14px;
   font-weight: 700;
   text-decoration: none;
   box-shadow: 0 7px 15px rgba(23, 38, 79, 0.08);
@@ -421,49 +422,93 @@ body.encyclopedia-mode {
 }
 
 .primary-button svg {
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
 }
 
 .guitar-card {
-  width: 324px;
-  height: 283px;
-  margin: 1px 0 0;
-  padding: 12px;
+  width: 100%;
+  margin: 0;
+  padding: 14px;
   border: 1px solid #e5e9ef;
-  border-radius: 6px;
+  border-radius: 10px;
   background: var(--white);
-  box-shadow: 0 9px 24px rgba(44, 58, 79, 0.07);
+  box-shadow: 0 12px 30px rgba(19, 34, 64, 0.1);
 }
 
 .guitar-image {
-  width: 300px;
-  height: 225px;
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: center;
   border: 1px solid #edf0f4;
-  border-radius: 3px;
-  background-color: #fff;
-  background-image: url("docs/prototyp/hlavna_stranka.png");
-  background-repeat: no-repeat;
-  background-size: 994px 722px;
-  background-position: -572px -156px;
+  border-radius: 6px;
+  background-color: #f7f9fc;
 }
 
 .guitar-card figcaption {
-  height: 31px;
+  min-height: 44px;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
+  gap: 8px;
+  padding-top: 10px;
   color: #536681;
-  font-size: 7.5px;
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   line-height: 1;
 }
 
-.guitar-card figcaption span:last-child {
-  color: #2349b1;
-  font-size: 7px;
-  letter-spacing: 0.06em;
+.guitar-label {
+  color: #132240;
+}
+
+.guitar-carousel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #132240;
+  white-space: nowrap;
+}
+
+.guitar-index {
+  min-width: 52px;
+  text-align: center;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+}
+
+.guitar-carousel-button {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid #e2e7ef;
+  border-radius: 50%;
+  background: #fff;
+  color: #132240;
+  cursor: pointer;
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+
+.guitar-carousel-button:hover {
+  border-color: #132240;
+  background: #132240;
+  color: #fff;
+}
+
+.guitar-carousel-button:focus-visible {
+  outline: 2px solid #2346b5;
+  outline-offset: 2px;
+}
+
+.guitar-carousel-button svg {
+  width: 15px;
+  height: 15px;
 }
 
 .recommendation {
@@ -496,7 +541,7 @@ body.encyclopedia-mode {
 
 .recommendation h2 {
   margin: 0;
-  color: #111827;
+  color: #132240;
   font-size: 20px;
   font-weight: 800;
   line-height: 1.25;
@@ -1617,17 +1662,9 @@ body.beginners-mode {
   }
 
   .hero {
-    grid-template-columns: 1fr 300px;
+    grid-template-columns: minmax(0, 1fr) 280px;
     gap: 20px;
     padding-right: 20px;
-  }
-
-  .guitar-card {
-    width: 300px;
-  }
-
-  .guitar-image {
-    width: 276px;
   }
 
   .shape-grid,
@@ -1745,7 +1782,7 @@ body.beginners-mode {
     padding: 48px 24px 32px;
   }
   .hero h1 {
-    font-size: 42px;
+    font-size: clamp(46px, 8vw, 54px);
   }
   .desktop-break {
     display: none;
