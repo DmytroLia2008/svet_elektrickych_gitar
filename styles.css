@@ -1240,21 +1240,23 @@ body.manufacturers-mode {
 }
 
 .maker-logo-slot {
-  width: 120px;
-  height: 56px;
-  flex: 0 0 120px;
+  width: calc(100% + 24px);
+  aspect-ratio: 16 / 9;
+  flex: 0 0 auto;
   box-sizing: border-box;
   display: grid;
   place-items: center;
-  padding: 5px;
-  border-radius: 6px;
+  margin: -11px -12px 8px;
+  overflow: hidden;
+  border-radius: 7px 7px 0 0;
   background: #f1f4f8;
 }
 
 .maker-logo-slot img {
+  display: block;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   object-position: center;
 }
 
@@ -1890,9 +1892,6 @@ body.beginners-mode {
     flex: 1 0 100%;
   }
 
-  .manufacturer-card .maker-logo-slot {
-    margin-left: auto;
-  }
 }
 
 @media (min-width: 1801px) {

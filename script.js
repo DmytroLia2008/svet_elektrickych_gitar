@@ -1,10 +1,10 @@
 const manufacturerLogoPaths = {
-  fender: 'img/logos/fender.png',
-  gibson: 'img/logos/gibson.png',
-  ibanez: 'img/logos/ibanez.png',
-  jackson: 'img/logos/jackson.png',
-  esp: 'img/logos/esp.png',
-  prs: 'img/logos/prs.png',
+  fender: 'img/fender.png',
+  gibson: 'img/gibson.svg',
+  ibanez: 'img/ibanez.webp',
+  jackson: 'img/jackson.webp',
+  esp: 'img/esp.webp',
+  prs: 'img/prs.png',
 };
 
 document.querySelectorAll('.maker-logo-slot img[data-brand-logo]').forEach((image) => {
