@@ -215,6 +215,15 @@
               <button class="hotspot" type="button" data-part="jack" aria-label="Konektor (Jack)" aria-pressed="false"></button>
             </div>
             <p class="diagram-note"><span aria-hidden="true">ⓘ</span> Kliknite na body pre zobrazenie informácií.</p>
+            <div class="hotspot-editor" id="hotspot-editor" hidden>
+              <label for="hotspot-positions">Polohy bodov</label>
+              <textarea id="hotspot-positions" readonly spellcheck="false"></textarea>
+              <div class="hotspot-editor__actions">
+                <button class="hotspot-editor__button" id="copy-hotspot-positions" type="button">Kopírovať</button>
+                <button class="hotspot-editor__button hotspot-editor__button--secondary" id="reset-hotspot-positions" type="button">Obnoviť pôvodné polohy</button>
+              </div>
+              <p class="hotspot-editor__status" id="hotspot-editor-status" role="status" aria-live="polite"></p>
+            </div>
           </div>
 
           <div class="components-panel">

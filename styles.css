@@ -932,6 +932,109 @@ body.parts-mode {
   outline-offset: 2px;
 }
 
+.hotspot-editor {
+  display: grid;
+  gap: 7px;
+  margin: 20px 14px 14px;
+}
+
+.hotspot-editor[hidden] {
+  display: none;
+}
+
+.hotspot-editor label {
+  color: #111827;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.hotspot-editor textarea {
+  width: 100%;
+  min-height: 170px;
+  resize: vertical;
+  border: 1px solid #e2e7ef;
+  border-radius: 5px;
+  padding: 8px;
+  background: #f7f9fc;
+  color: #425a78;
+  font: 10px/1.45 ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+
+.hotspot-editor__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.hotspot-editor__button {
+  min-height: 44px;
+  border: 1px solid #11223f;
+  border-radius: 5px;
+  padding: 7px 10px;
+  background: #11223f;
+  color: #fff;
+  font: inherit;
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.hotspot-editor__button:hover {
+  background: #2346b5;
+}
+
+.hotspot-editor__button--secondary {
+  border-color: #e2e7ef;
+  background: #fff;
+  color: #425a78;
+}
+
+.hotspot-editor__button--secondary:hover {
+  border-color: #b9c9e8;
+  background: #eef4ff;
+  color: #2346b5;
+}
+
+.hotspot-editor__status {
+  min-height: 1.4em;
+  margin: 0;
+  color: #425a78;
+  font-size: 9px;
+}
+
+.guitar-points-edit .hotspot {
+  cursor: grab;
+  touch-action: none;
+}
+
+.guitar-points-edit .diagram-note {
+  position: static;
+  margin: 0 14px;
+}
+
+.guitar-points-edit .hotspot.is-dragging {
+  z-index: 4;
+  cursor: grabbing;
+  transition: none;
+}
+
+.hotspot-drag-label {
+  position: fixed;
+  z-index: 100;
+  pointer-events: none;
+  border-radius: 4px;
+  padding: 4px 7px;
+  background: #0b1835;
+  color: #fff;
+  font-size: 11px;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.hotspot-drag-label[hidden] {
+  display: none;
+}
+
 .diagram-note {
   position: absolute;
   bottom: 8px;

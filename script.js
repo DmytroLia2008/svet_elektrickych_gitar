@@ -111,19 +111,68 @@ document.addEventListener('click', (event) => {
 });
 
 const guitarPartPositions = {
-  head: { name: 'Hlava', x: 50, y: 9 },
-  tuning: { name: 'Ladiace mechaniky', x: 38, y: 13 },
-  neck: { name: 'Krk', x: 50, y: 32 },
-  fretboard: { name: 'Hmatník', x: 54, y: 39 },
-  fret: { name: 'Pražce', x: 46, y: 43 },
-  strings: { name: 'Struny', x: 50, y: 56 },
-  body: { name: 'Telo', x: 50, y: 69 },
-  pickups: { name: 'Snímače', x: 46, y: 64 },
-  nut: { name: 'Kobylka', x: 58, y: 72 },
-  controls: { name: 'Ovládacie panely', x: 62, y: 78 },
-  switch: { name: 'Prepínač', x: 38, y: 75 },
-  jack: { name: 'Konektor (Jack)', x: 68, y: 84 }
+  head: { name: 'Hlava', x: 60.3, y: 9.3 },
+  tuning: { name: 'Ladiace mechaniky', x: 38.0, y: 13.0 },
+  neck: { name: 'Krk', x: 48.5, y: 26.3 },
+  fretboard: { name: 'Hmatník', x: 54.5, y: 36.1 },
+  fret: { name: 'Pražce', x: 40.4, y: 44.7 },
+  strings: { name: 'Struny', x: 49.0, y: 59.1 },
+  body: { name: 'Telo', x: 16.6, y: 67.0 },
+  pickups: { name: 'Snímače', x: 49.6, y: 74.6 },
+  nut: { name: 'Kobylka', x: 46.9, y: 87.6 },
+  controls: { name: 'Ovládacie panely', x: 78.7, y: 84.2 },
+  switch: { name: 'Prepínač', x: 82.5, y: 77.6 },
+  jack: { name: 'Konektor (Jack)', x: 84.0, y: 93.6 }
 };
+
+const originalGuitarPartPositions = Object.fromEntries(
+  Object.entries(guitarPartPositions).map(([key, part]) => [key, { ...part }])
+);
+const hotspotEditorEnabled = new URLSearchParams(window.location.search).get('edit') === '1';
+const hotspotStorageKey = 'guitarPartPositions';
+const hotspotEditor = document.querySelector('#hotspot-editor');
+const hotspotPositionsOutput = document.querySelector('#hotspot-positions');
+const hotspotEditorStatus = document.querySelector('#hotspot-editor-status');
+const dragLabel = document.createElement('span');
+dragLabel.className = 'hotspot-drag-label';
+dragLabel.hidden = true;
+dragLabel.setAttribute('aria-hidden', 'true');
+document.body.append(dragLabel);
+
+if (hotspotEditorEnabled) {
+  document.body.classList.add('guitar-points-edit');
+  hotspotEditor?.removeAttribute('hidden');
+
+  try {
+    const savedPositions = window.localStorage.getItem(hotspotStorageKey);
+    if (savedPositions) {
+      const parsedPositions = JSON.parse(savedPositions);
+      const hasAllPositions = Object.keys(originalGuitarPartPositions).every((key) => {
+        const position = parsedPositions[key];
+        return position &&
+          Number.isFinite(position.x) &&
+          Number.isFinite(position.y) &&
+          position.x >= 0 &&
+          position.x <= 100 &&
+          position.y >= 0 &&
+          position.y <= 100;
+      });
+
+      if (!hasAllPositions) {
+        throw new Error('Uložené polohy nemajú platný formát.');
+      }
+
+      Object.keys(guitarPartPositions).forEach((key) => {
+        guitarPartPositions[key].x = parsedPositions[key].x;
+        guitarPartPositions[key].y = parsedPositions[key].y;
+      });
+    }
+  } catch (error) {
+    if (hotspotEditorStatus) {
+      hotspotEditorStatus.textContent = `Polohy sa nepodarilo načítať: ${error.message}`;
+    }
+  }
+}
 
 const guitarPartDetails = {
   head: 'Horná časť gitary, na ktorej sú upevnené ladiace mechaniky. Často nesie logo značky.',
@@ -175,12 +224,135 @@ function selectPart(part) {
   renderPartDetail(nextPart);
 }
 
+function formatGuitarPartPositions() {
+  const entries = Object.entries(guitarPartPositions).map(([key, part]) =>
+    `  ${key}: { name: '${part.name}', x: ${part.x.toFixed(1)}, y: ${part.y.toFixed(1)} },`
+  );
+  return `const guitarPartPositions = {\n${entries.join('\n')}\n};`;
+}
+
+function updateHotspotPositionsOutput() {
+  if (hotspotPositionsOutput) {
+    hotspotPositionsOutput.value = formatGuitarPartPositions();
+  }
+}
+
+function saveHotspotPositions() {
+  try {
+    const positions = Object.fromEntries(
+      Object.entries(guitarPartPositions).map(([key, part]) => [
+        key,
+        { x: part.x, y: part.y }
+      ])
+    );
+    window.localStorage.setItem(hotspotStorageKey, JSON.stringify(positions));
+    if (hotspotEditorStatus) hotspotEditorStatus.textContent = 'Polohy sú uložené v tomto prehliadači.';
+  } catch (error) {
+    if (hotspotEditorStatus) {
+      hotspotEditorStatus.textContent = `Polohy sa nepodarilo uložiť: ${error.message}`;
+    }
+  }
+}
+
+function positionHotspot(hotspot, part) {
+  hotspot.style.left = `${part.x}%`;
+  hotspot.style.top = `${part.y}%`;
+}
+
+function moveHotspotToPointer(hotspot, part, event, offsetX, offsetY) {
+  const bounds = hotspot.parentElement.getBoundingClientRect();
+  const halfWidth = hotspot.offsetWidth / (2 * bounds.width) * 100;
+  const halfHeight = hotspot.offsetHeight / (2 * bounds.height) * 100;
+  part.x = Math.min(100 - halfWidth, Math.max(halfWidth, (event.clientX + offsetX - bounds.left) / bounds.width * 100));
+  part.y = Math.min(100 - halfHeight, Math.max(halfHeight, (event.clientY + offsetY - bounds.top) / bounds.height * 100));
+  part.x = Math.round(part.x * 10) / 10;
+  part.y = Math.round(part.y * 10) / 10;
+  positionHotspot(hotspot, part);
+  updateHotspotPositionsOutput();
+  saveHotspotPositions();
+}
+
+function showDragLabel(name, event) {
+  dragLabel.textContent = name;
+  dragLabel.hidden = false;
+  dragLabel.style.left = `${Math.min(event.clientX + 14, window.innerWidth - 160)}px`;
+  dragLabel.style.top = `${Math.min(event.clientY + 14, window.innerHeight - 36)}px`;
+}
+
+if (hotspotEditorEnabled) {
+  updateHotspotPositionsOutput();
+  document.querySelector('#copy-hotspot-positions')?.addEventListener('click', async () => {
+    const text = formatGuitarPartPositions();
+    try {
+      if (navigator.clipboard?.writeText) {
+        try {
+          await navigator.clipboard.writeText(text);
+        } catch (error) {
+          hotspotPositionsOutput?.select();
+          if (!document.execCommand('copy')) throw error;
+        }
+      } else {
+        hotspotPositionsOutput?.select();
+        if (!document.execCommand('copy')) throw new Error('Schránka nie je dostupná.');
+      }
+      if (hotspotEditorStatus) hotspotEditorStatus.textContent = 'Polohy boli skopírované.';
+    } catch (error) {
+      if (hotspotEditorStatus) {
+        hotspotEditorStatus.textContent = `Polohy sa nepodarilo skopírovať: ${error.message}`;
+      }
+    }
+  });
+
+  document.querySelector('#reset-hotspot-positions')?.addEventListener('click', () => {
+    Object.keys(guitarPartPositions).forEach((key) => {
+      guitarPartPositions[key].x = originalGuitarPartPositions[key].x;
+      guitarPartPositions[key].y = originalGuitarPartPositions[key].y;
+    });
+    document.querySelectorAll('.hotspot').forEach((hotspot) => {
+      const part = guitarPartPositions[hotspot.dataset.part];
+      if (part) positionHotspot(hotspot, part);
+    });
+    updateHotspotPositionsOutput();
+    saveHotspotPositions();
+  });
+}
+
 document.querySelectorAll('.hotspot').forEach((hotspot) => {
   const part = guitarPartPositions[hotspot.dataset.part];
   if (!part) return;
-  hotspot.style.left = `${part.x}%`;
-  hotspot.style.top = `${part.y}%`;
-  hotspot.addEventListener('click', () => selectPart(hotspot.dataset.part));
+  positionHotspot(hotspot, part);
+  if (hotspotEditorEnabled) {
+    let isDragging = false;
+    let dragOffsetX = 0;
+    let dragOffsetY = 0;
+    hotspot.addEventListener('pointerdown', (event) => {
+      if (!event.isPrimary || event.button !== 0) return;
+      event.preventDefault();
+      isDragging = true;
+      hotspot.classList.add('is-dragging');
+      hotspot.setPointerCapture(event.pointerId);
+      const bounds = hotspot.getBoundingClientRect();
+      dragOffsetX = bounds.left + bounds.width / 2 - event.clientX;
+      dragOffsetY = bounds.top + bounds.height / 2 - event.clientY;
+      showDragLabel(part.name, event);
+    });
+    hotspot.addEventListener('pointermove', (event) => {
+      if (!isDragging) return;
+      showDragLabel(part.name, event);
+      moveHotspotToPointer(hotspot, part, event, dragOffsetX, dragOffsetY);
+    });
+    const endDrag = () => {
+      if (!isDragging) return;
+      isDragging = false;
+      hotspot.classList.remove('is-dragging');
+      dragLabel.hidden = true;
+    };
+    hotspot.addEventListener('pointerup', endDrag);
+    hotspot.addEventListener('pointercancel', endDrag);
+    hotspot.addEventListener('lostpointercapture', endDrag);
+  } else {
+    hotspot.addEventListener('click', () => selectPart(hotspot.dataset.part));
+  }
 });
 
 document.querySelectorAll('.component-button').forEach((button) => {
