@@ -1,3 +1,22 @@
+const manufacturerLogoPaths = {
+  fender: 'img/logos/fender.png',
+  gibson: 'img/logos/gibson.png',
+  ibanez: 'img/logos/ibanez.png',
+  jackson: 'img/logos/jackson.png',
+  esp: 'img/logos/esp.png',
+  prs: 'img/logos/prs.png',
+};
+
+document.querySelectorAll('.maker-logo-slot img[data-brand-logo]').forEach((image) => {
+  const logoPath = manufacturerLogoPaths[image.dataset.brandLogo];
+  if (!logoPath) return;
+
+  image.addEventListener('error', () => {
+    image.closest('.maker-logo-slot')?.classList.add('has-fallback');
+  }, { once: true });
+  image.src = logoPath;
+});
+
 const searchForm = document.querySelector('.search');
 const searchInput = searchForm?.querySelector('input');
 

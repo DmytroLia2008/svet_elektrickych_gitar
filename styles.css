@@ -1173,6 +1173,7 @@ body.manufacturers-mode {
 
 .manufacturers-section {
   margin: 0 32px;
+  margin-bottom: 56px;
   padding-top: 15px;
 }
 
@@ -1204,12 +1205,16 @@ body.manufacturers-mode {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
   gap: 8px;
 }
 
 .manufacturer-card {
-  height: 116px;
-  padding: 11px 12px 8px;
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: 11px 12px 12px;
   border: 1px solid #e2e7ef;
   border-radius: 8px;
   background: #fff;
@@ -1217,40 +1222,85 @@ body.manufacturers-mode {
 }
 
 .manufacturer-card header {
-  height: 35px;
+  min-height: 56px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.maker-name {
+  min-width: 0;
+  flex: 1;
+}
+
+.maker-name h3 {
+  overflow-wrap: anywhere;
+}
+
+.maker-logo-slot {
+  width: 120px;
+  height: 56px;
+  flex: 0 0 120px;
+  box-sizing: border-box;
   display: grid;
-  grid-template-columns: 28px 1fr 14px;
-  align-items: start;
-  gap: 8px;
+  place-items: center;
+  padding: 5px;
+  border-radius: 6px;
+  background: #f1f4f8;
+}
+
+.maker-logo-slot img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
 }
 
 .maker-mark {
-  width: 28px;
-  height: 28px;
+  width: 100%;
+  height: 100%;
   display: grid;
   place-items: center;
-  border-radius: 6px;
+  border-radius: inherit;
   background: #17264f;
   color: #fff;
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 700;
+}
+
+.maker-logo-slot .maker-mark {
+  display: none;
+}
+
+.maker-logo-slot.has-fallback img {
+  display: none;
+}
+
+.maker-logo-slot.has-fallback .maker-mark {
+  display: grid;
 }
 
 .manufacturer-card header h3 {
   margin: 0;
   color: #111827;
-  font-size: 10.5px;
+  font-size: 24px;
+  font-weight: 800;
   line-height: 1.1;
 }
 
 .manufacturer-card header p {
   margin: 3px 0 0;
   color: #718096;
-  font-size: 7px;
-  line-height: 1;
+  font-size: 13px;
+  line-height: 1.2;
 }
 
 .maker-link {
+  position: absolute;
+  right: 12px;
+  bottom: 8px;
   color: #96a7bf;
   font-size: 10px;
   text-align: right;
@@ -1264,26 +1314,32 @@ body.manufacturers-mode {
 
 .maker-type {
   display: block;
-  margin: 2px 0 3px;
+  margin: 0 0 8px;
   color: #718096;
-  font-size: 6.5px;
+  font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.06em;
+  line-height: 1.2;
 }
 
 .manufacturer-card strong {
   display: block;
-  margin-bottom: 4px;
+  margin-bottom: 8px;
   color: #111827;
-  font-size: 8.5px;
-  line-height: 1.1;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
 }
 
 .manufacturer-card > p {
   margin: 0;
+  padding-right: 20px;
+  padding-bottom: 18px;
   color: #465a7a;
-  font-size: 7.5px;
-  line-height: 1.42;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
 }
 
 body.beginners-mode {
@@ -1823,6 +1879,20 @@ body.beginners-mode {
     grid-template-columns: 1fr;
   }
 
+}
+
+@media (min-width: 481px) and (max-width: 560px) {
+  .manufacturer-card header {
+    flex-wrap: wrap;
+  }
+
+  .manufacturer-card .maker-name {
+    flex: 1 0 100%;
+  }
+
+  .manufacturer-card .maker-logo-slot {
+    margin-left: auto;
+  }
 }
 
 @media (min-width: 1801px) {
