@@ -17,50 +17,80 @@ document.querySelectorAll('.maker-logo-slot img[data-brand-logo]').forEach((imag
   image.src = logoPath;
 });
 
-const searchForm = document.querySelector('.search');
-const searchInput = searchForm?.querySelector('input');
+const sidebar = document.querySelector('.sidebar');
+const contentScroller = document.querySelector('.content');
+const drawerOpenButton = document.querySelector('[data-drawer-open]');
+const drawerCloseButton = document.querySelector('[data-drawer-close]');
+const drawerOverlay = document.querySelector('[data-drawer-overlay]');
+const mobileDrawerQuery = window.matchMedia('(max-width: 899px)');
 
-searchForm?.addEventListener('submit', (event) => {
-  event.preventDefault();
+document.querySelectorAll('a[href="#"]').forEach((link) => {
+  link.addEventListener('click', () => contentScroller?.scrollTo(0, 0));
 });
 
-searchInput?.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape') {
-    searchInput.value = '';
-    searchInput.blur();
-  }
-});
-
-const guitarPreviews = [
-  { name: 'Stratocaster', image: 'img/stratocaster.jpg' },
-  { name: 'Telecaster', image: 'img/telecaster.jpeg' },
-  { name: 'Les Paul', image: 'img/les_paul.jpg' },
-  { name: 'SG', image: 'img/sg.jpg' },
-];
-const guitarImage = document.querySelector('.guitar-image');
-const guitarLabel = document.querySelector('.guitar-label');
-const guitarIndex = document.querySelector('.guitar-index');
-let activeGuitarPreview = 0;
-
-function showGuitarPreview(index) {
-  activeGuitarPreview = (index + guitarPreviews.length) % guitarPreviews.length;
-  const preview = guitarPreviews[activeGuitarPreview];
-
-  if (guitarImage) {
-    guitarImage.src = preview.image;
-    guitarImage.alt = `Elektrická gitara ${preview.name}`;
-  }
-  if (guitarLabel) guitarLabel.textContent = preview.name.toLocaleUpperCase('sk');
-  if (guitarIndex) {
-    guitarIndex.textContent = `${String(activeGuitarPreview + 1).padStart(2, '0')} / ${String(guitarPreviews.length).padStart(2, '0')}`;
+function syncSidebarDialog() {
+  if (!sidebar) return;
+  if (mobileDrawerQuery.matches) {
+    sidebar.setAttribute('role', 'dialog');
+    sidebar.setAttribute('aria-modal', 'true');
+  } else {
+    sidebar.removeAttribute('role');
+    sidebar.removeAttribute('aria-modal');
+    closeDrawer(false);
   }
 }
 
-document.querySelector('[data-guitar-previous]')?.addEventListener('click', () => {
-  showGuitarPreview(activeGuitarPreview - 1);
+function openDrawer() {
+  if (!mobileDrawerQuery.matches || !sidebar) return;
+  document.body.classList.add('drawer-open');
+  document.querySelector('.content')?.setAttribute('inert', '');
+  drawerOpenButton?.setAttribute('aria-expanded', 'true');
+  window.requestAnimationFrame(() => {
+    drawerCloseButton?.focus();
+  });
+}
+
+function closeDrawer(restoreFocus = true) {
+  document.body.classList.remove('drawer-open');
+  document.querySelector('.content')?.removeAttribute('inert');
+  drawerOpenButton?.setAttribute('aria-expanded', 'false');
+  if (restoreFocus && mobileDrawerQuery.matches) drawerOpenButton?.focus();
+}
+
+drawerOpenButton?.addEventListener('click', () => openDrawer());
+drawerCloseButton?.addEventListener('click', () => closeDrawer());
+drawerOverlay?.addEventListener('click', () => closeDrawer());
+mobileDrawerQuery.addEventListener('change', syncSidebarDialog);
+syncSidebarDialog();
+
+sidebar?.addEventListener('click', (event) => {
+  if (event.target instanceof Element && event.target.closest('a')) closeDrawer();
 });
-document.querySelector('[data-guitar-next]')?.addEventListener('click', () => {
-  showGuitarPreview(activeGuitarPreview + 1);
+
+document.addEventListener('keydown', (event) => {
+  if (!mobileDrawerQuery.matches || !document.body.classList.contains('drawer-open')) return;
+
+  if (event.key === 'Escape') {
+    event.preventDefault();
+    closeDrawer();
+    return;
+  }
+
+  if (event.key !== 'Tab' || !sidebar) return;
+  const focusable = [...sidebar.querySelectorAll('a[href], button:not([disabled]), input:not([disabled])')]
+    .filter((element) => element.getClientRects().length > 0);
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+  if (!first || !last) {
+    event.preventDefault();
+    drawerCloseButton?.focus();
+  } else if (event.shiftKey && (document.activeElement === first || !sidebar.contains(document.activeElement))) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && (document.activeElement === last || !sidebar.contains(document.activeElement))) {
+    event.preventDefault();
+    first.focus();
+  }
 });
 
 document.querySelectorAll('.side-link').forEach((link) => {
@@ -108,6 +138,14 @@ function renderRoute() {
     link.classList.toggle('active', link.getAttribute('href') === window.location.hash);
   });
 
+  const activeSubLink = document.querySelector('.side-sub-link.active');
+  if (activeSubLink) {
+    closeSidebarMenus();
+    const submenu = activeSubLink.closest('.sidebar-submenu');
+    submenu?.removeAttribute('hidden');
+    document.querySelector(`.side-main-link[data-section="${submenu?.dataset.submenu}"]`)?.setAttribute('aria-expanded', 'true');
+  }
+
   if (isEncyclopedia || isParts || isFindGuitar) {
     if (isParts) {
       window.requestAnimationFrame(() => {
@@ -118,8 +156,10 @@ function renderRoute() {
         document.querySelector('#beginners-section')?.scrollIntoView({ block: 'start' });
       });
     } else {
-      window.scrollTo(0, 0);
+      contentScroller?.scrollTo(0, 0);
     }
+  } else if (!window.location.hash || window.location.hash === '#') {
+    contentScroller?.scrollTo(0, 0);
   }
 }
 
