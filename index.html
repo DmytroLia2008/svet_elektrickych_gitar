@@ -408,11 +408,13 @@
       </header>
       <p class="guitar-modal__description" id="guitar-modal-description">Prehliadka obrázkov vybranej gitary.</p>
       <div class="guitar-modal__viewer">
-        <button class="guitar-modal__arrow guitar-modal__arrow--prev" type="button" aria-label="Predchádzajúci obrázok">‹</button>
         <div class="guitar-modal__main" aria-live="polite"></div>
-        <button class="guitar-modal__arrow guitar-modal__arrow--next" type="button" aria-label="Nasledujúci obrázok">›</button>
+        <div class="guitar-modal__controls">
+          <button class="guitar-modal__arrow guitar-modal__arrow--prev" type="button" aria-label="Predchádzajúci obrázok">‹</button>
+          <div class="guitar-modal__position" aria-live="polite"></div>
+          <button class="guitar-modal__arrow guitar-modal__arrow--next" type="button" aria-label="Nasledujúci obrázok">›</button>
+        </div>
       </div>
-      <div class="guitar-modal__position" aria-live="polite"></div>
       <div class="guitar-modal__thumbnails" aria-label="Náhľady obrázkov"></div>
     </section>
   </div>
