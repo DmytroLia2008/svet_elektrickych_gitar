@@ -83,7 +83,6 @@ body {
   max-width: 100%;
 }
 
-.sidebar-close-button,
 .mobile-topbar {
   display: none;
 }
@@ -2626,24 +2625,30 @@ body {
     cursor: pointer;
   }
 
-  .mobile-menu-button svg,
-  .sidebar-close-button svg {
+  .mobile-menu-button svg {
     width: 21px;
     height: 21px;
   }
 
   .mobile-brand {
     position: absolute;
-    left: 50%;
+    left: 56px;
+    right: 8px;
+    width: auto;
     gap: 7px;
-    max-width: calc(100% - 104px);
-    transform: translateX(-50%);
-    font-size: 12px;
+    max-width: none;
+    justify-content: center;
+    transform: none;
+    font-size: clamp(17px, 5.3vw, 20px);
+    white-space: nowrap;
   }
 
-  .mobile-brand .brand-mark {
-    width: 28px;
-    height: 28px;
+  .mobile-brand .brand-logo {
+    width: 32px;
+    height: 32px;
+    flex: 0 0 32px;
+    object-fit: cover;
+    border-radius: 8px;
   }
 
   .sidebar {
@@ -2664,22 +2669,15 @@ body {
   }
 
   .sidebar-header {
-    grid-template-columns: minmax(0, 1fr) 40px;
-    align-items: center;
-    gap: 16px 8px;
-    padding: 20px 14px 0;
+    display: none;
   }
 
-  .sidebar-close-button {
-    width: 40px;
-    height: 40px;
-    display: grid;
-    place-items: center;
-    border: 1px solid #e2e7ef;
-    border-radius: 6px;
-    background: #fff;
-    color: #17264f;
-    cursor: pointer;
+  .sidebar .sidebar-brand {
+    display: none;
+  }
+
+  .sidebar nav {
+    padding-top: 16px;
   }
 
   .sidebar .side-main-link {
@@ -2821,8 +2819,12 @@ body {
   white-space: nowrap;
 }
 
-.sidebar .sidebar-brand .brand-mark {
-  flex: 0 0 30px;
+.sidebar .sidebar-brand .brand-logo {
+  width: 32px;
+  height: 32px;
+  object-fit: cover;
+  border-radius: 8px;
+  flex: 0 0 32px;
 }
 
 .sidebar .sidebar-brand span:last-child {

@@ -20,7 +20,6 @@ document.querySelectorAll('.maker-logo-slot img[data-brand-logo]').forEach((imag
 const sidebar = document.querySelector('.sidebar');
 const contentScroller = document.querySelector('.content');
 const drawerOpenButton = document.querySelector('[data-drawer-open]');
-const drawerCloseButton = document.querySelector('[data-drawer-close]');
 const drawerOverlay = document.querySelector('[data-drawer-overlay]');
 const mobileDrawerQuery = window.matchMedia('(max-width: 899px)');
 
@@ -45,8 +44,9 @@ function openDrawer() {
   document.body.classList.add('drawer-open');
   document.querySelector('.content')?.setAttribute('inert', '');
   drawerOpenButton?.setAttribute('aria-expanded', 'true');
+  drawerOpenButton?.setAttribute('aria-label', 'Zavrieť menu');
   window.requestAnimationFrame(() => {
-    drawerCloseButton?.focus();
+    sidebar?.querySelector('.side-link')?.focus();
   });
 }
 
@@ -54,11 +54,14 @@ function closeDrawer(restoreFocus = true) {
   document.body.classList.remove('drawer-open');
   document.querySelector('.content')?.removeAttribute('inert');
   drawerOpenButton?.setAttribute('aria-expanded', 'false');
+  drawerOpenButton?.setAttribute('aria-label', 'Otvoriť menu');
   if (restoreFocus && mobileDrawerQuery.matches) drawerOpenButton?.focus();
 }
 
-drawerOpenButton?.addEventListener('click', () => openDrawer());
-drawerCloseButton?.addEventListener('click', () => closeDrawer());
+drawerOpenButton?.addEventListener('click', () => {
+  if (document.body.classList.contains('drawer-open')) closeDrawer();
+  else openDrawer();
+});
 drawerOverlay?.addEventListener('click', () => closeDrawer());
 mobileDrawerQuery.addEventListener('change', syncSidebarDialog);
 syncSidebarDialog();
@@ -83,7 +86,7 @@ document.addEventListener('keydown', (event) => {
   const last = focusable[focusable.length - 1];
   if (!first || !last) {
     event.preventDefault();
-    drawerCloseButton?.focus();
+    first?.focus();
   } else if (event.shiftKey && (document.activeElement === first || !sidebar.contains(document.activeElement))) {
     event.preventDefault();
     last.focus();
