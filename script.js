@@ -22,9 +22,15 @@ const contentScroller = document.querySelector('.content');
 const drawerOpenButton = document.querySelector('[data-drawer-open]');
 const drawerOverlay = document.querySelector('[data-drawer-overlay]');
 const mobileDrawerQuery = window.matchMedia('(max-width: 899px)');
+const naturalPageScrollQuery = window.matchMedia('(max-width: 1100px)');
+
+function scrollMainToTop() {
+  if (naturalPageScrollQuery.matches) window.scrollTo(0, 0);
+  else contentScroller?.scrollTo(0, 0);
+}
 
 document.querySelectorAll('a[href="#"]').forEach((link) => {
-  link.addEventListener('click', () => contentScroller?.scrollTo(0, 0));
+  link.addEventListener('click', scrollMainToTop);
 });
 
 function syncSidebarDialog() {
@@ -159,10 +165,10 @@ function renderRoute() {
         document.querySelector('#beginners-section')?.scrollIntoView({ block: 'start' });
       });
     } else {
-      contentScroller?.scrollTo(0, 0);
+      scrollMainToTop();
     }
   } else if (!window.location.hash || window.location.hash === '#') {
-    contentScroller?.scrollTo(0, 0);
+    scrollMainToTop();
   }
 }
 
