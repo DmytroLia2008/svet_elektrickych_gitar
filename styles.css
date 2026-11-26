@@ -1058,6 +1058,10 @@ body.manufacturers-mode {
   --sidebar-width: 260px;
 }
 
+#manufacturers-page {
+  padding-bottom: 32px;
+}
+
 .manufacturers-header {
   height: 143px;
   margin: 0 32px;
@@ -1494,7 +1498,7 @@ body.beginners-mode {
   height: 38px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   margin: 0 32px;
   border-top: 1px solid #edf0f5;
   color: #718096;
